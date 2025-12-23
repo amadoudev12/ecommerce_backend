@@ -1,0 +1,103 @@
+Parfait ! 🔥
+On va maintenant se concentrer uniquement sur les fonctionnalités backend de ton site e-commerce.
+Je vais les lister par acteur / rôle, mais côté serveur, donc toutes les opérations qui gèrent la base de données et la logique métier.
+
+👤 1️⃣ CLIENT (Backend)
+
+Ces fonctionnalités concernent ce que le serveur doit gérer pour un client.
+
+🔹 Gestion du compte
+
+Créer un compte (POST /clients)
+
+Se connecter et générer un token JWT (POST /auth/login)
+
+Modifier les informations personnelles (PUT /clients/:id)
+
+Changer le mot de passe (PUT /clients/:id/password)
+
+Supprimer le compte (DELETE /clients/:id)
+
+🔹 Gestion des produits
+
+Récupérer tous les produits (GET /produits)
+
+Récupérer un produit par id (GET /produits/:id)
+
+Rechercher et filtrer les produits (GET /produits?nom=...&prix_min=...)
+
+🔹 Gestion du panier & commandes
+
+Ajouter un produit à une commande / panier (POST /commandes)
+
+Modifier la quantité d’un produit dans la commande (PUT /lignes-commande)
+
+Supprimer un produit de la commande (DELETE /lignes-commande)
+
+Récupérer le panier ou la commande en cours (GET /commandes/:clientId/encours)
+
+Passer une commande (POST /commandes/:id/valider)
+
+🔹 Paiement
+
+Créer un paiement (POST /paiements)
+
+Vérifier le statut du paiement (GET /paiements/:id)
+
+Historique des paiements d’un client (GET /paiements?clientId=...)
+
+🧑‍💼 2️⃣ ADMINISTRATEUR (Backend)
+
+Ces fonctionnalités backend permettent de gérer le site.
+
+🔹 Gestion des produits
+
+Ajouter un produit (POST /produits)
+
+Modifier un produit (PUT /produits/:id)
+
+Supprimer un produit (DELETE /produits/:id)
+
+🔹 Gestion des commandes
+
+Récupérer toutes les commandes (GET /commandes)
+
+Modifier le statut d’une commande (PUT /commandes/:id/statut)
+
+Voir le détail d’une commande (GET /commandes/:id)
+
+🔹 Gestion des clients
+
+Récupérer tous les clients (GET /clients)
+
+Voir les commandes d’un client (GET /commandes?clientId=...)
+
+🔹 Gestion des paiements
+
+Récupérer tous les paiements (GET /paiements)
+
+Vérifier les paiements (GET /paiements/:id)
+
+🔹 Statistiques (Backend)
+
+Calcul du chiffre d’affaires total (GET /stats/chiffre-affaires)
+
+Produits les plus vendus (GET /stats/produits)
+
+Nombre de commandes par période (GET /stats/commandes)
+
+
+
+{
+  "nom":"Diallo",
+  "prenom":"Amadou",
+  "email":"amadou@gmail.com",
+  "telephone":"0566009210",
+  "mot_de_passe":"123",
+  "adresse":"abidjan"
+}
+
+{
+  "message": "Bienvenue M. Diallo",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibm9tIjoiRGlhbGxvIiwicHJlbm9tIjoiQW1hZG91IiwiZW1haWwiOiJhbWFkb3VAZ21haWwuY29tIiwidGVsZXBob25lIjoiMDU2NjAwOTIxMCIsImFkcmVzc2UiOiJhYmlkamFuIiwiaWF0IjoxNzY2NDg4Mjg5LCJleHAiOjE3NjcwOTMwODl9.rWsjfdQ-DfYsuS-vPGgmS4Vf0OCydCgK_exEW7rCEJ4"
+}

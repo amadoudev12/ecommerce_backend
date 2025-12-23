@@ -1,0 +1,75 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+
+// schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+
+}
+
+model Client {
+  id          Int        @id @default(autoincrement())
+  nom         String
+  prenom      String
+  email       String     @unique
+  mot_de_passe String
+  telephone   String?
+  adresse     String?
+  date_inscription DateTime @default(now())
+
+  commandes   Commande[]
+}
+
+model Produit {
+  id          Int        @id @default(autoincrement())
+  nom         String
+  description String?
+  prix        Float
+  stock       Int
+  image       String?
+  date_ajout  DateTime   @default(now())
+
+  lignesCommande LigneCommande[]
+}
+
+model Commande {
+  id          Int        @id @default(autoincrement())
+  date_commande DateTime @default(now())
+  statut_commande String
+  total       Float
+  id_client   Int
+  client      Client     @relation(fields: [id_client], references: [id])
+
+  lignesCommande LigneCommande[]
+  paiement       Paiement?
+}
+
+model LigneCommande {
+  id_commande Int
+  id_produit  Int
+  quantite    Int
+  prix_unitaire Float
+
+  commande   Commande @relation(fields: [id_commande], references: [id])
+  produit    Produit  @relation(fields: [id_produit], references: [id])
+
+  @@id([id_commande, id_produit])
+}
+
+model Paiement {
+  id           Int       @id @default(autoincrement())
+  mode_paiement String
+  montant      Float
+  date_paiement DateTime @default(now())
+  statut_paiement String
+  id_commande   Int      @unique
+  commande      Commande @relation(fields: [id_commande], references: [id])
+}
