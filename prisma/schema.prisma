@@ -30,7 +30,7 @@ model Client {
 
 model Produit {
   id          Int        @id @default(autoincrement())
-  nom         String
+  nom         String      @unique
   description String?
   prix        Float
   stock       Int
@@ -43,7 +43,7 @@ model Produit {
 model Commande {
   id          Int        @id @default(autoincrement())
   date_commande DateTime @default(now())
-  statut_commande String
+  statut_commande String @default("en cours")
   total       Float
   id_client   Int
   client      Client     @relation(fields: [id_client], references: [id])

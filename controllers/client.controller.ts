@@ -29,7 +29,7 @@ const inscription = async (req:Request, res:Response) => {
         }
         const saltRound:number = 10
         const motPasseHasher = await bcrypt.hash(mot_de_passe, saltRound)
-        console.log(motPasseHasher)
+        //console.log(motPasseHasher)
         const client = await prisma.client.create({
             data : {
                 nom:nom,
@@ -63,9 +63,9 @@ const login = async(req:Request, res:Response)=>{
         if(!motPasseHasherCompare){
             return res.json({message:"mot de passe incorrect"}).status(404)
         }
-        const role = "client"
+        let role = "client"
         if(existUser.email == "amadoughost2004@gmail.com"){
-            const role = "admin"
+            role = "admin"
         }
         const token = Jwt.sign({
             id:existUser.id,
