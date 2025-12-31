@@ -5,6 +5,7 @@ import {prisma} from '../lib/prisma.js'
 import  Jwt  from 'jsonwebtoken'
 
 const ma_cle_secret = process.env.MA_CLE_SECRET
+const emailAdmin= process.env.ADMIN_EMAIL
 const clientGet = async (req:Request, res:Response) => {
     try{
         const clients = await prisma.client.findMany()
@@ -64,7 +65,7 @@ const login = async(req:Request, res:Response)=>{
             return res.json({message:"mot de passe incorrect"}).status(404)
         }
         let role = "client"
-        if(existUser.email == "amadoughost2004@gmail.com"){
+        if(existUser.email == emailAdmin){
             role = "admin"
         }
         const token = Jwt.sign({

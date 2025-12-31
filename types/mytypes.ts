@@ -16,3 +16,9 @@ export interface Produit {
     stock:number
     image:string
 }
+
+export interface ligneCommandeT {
+    id_produit:number
+    quantite:number
+    prix_unitaire:number
+}

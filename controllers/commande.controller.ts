@@ -1,8 +1,12 @@
 import {  type Request, type Response} from 'express'
 import { prisma } from '../lib/prisma.js'
+import {type ligneCommandeT } from '../types/mytypes.js'
 
 const getCommandes = async (req:Request, res:Response)=>{
     try{
+        if(req.user.role !== "admin"){
+            return res.json({message:'vous êtes pas administrateur'}).status(401)
+        }
         const  commandes = await prisma.commande.findMany({
             include:{lignesCommande:true}
         })
@@ -17,8 +21,15 @@ const getCommandes = async (req:Request, res:Response)=>{
 }
 const createCommande = async(req:Request, res:Response)=>{
     try{
+        if(req.user.role !== "admin"){
+            return res.json({message:'vous êtes pas administrateur'}).status(401)
+        }
         const body = req.body
-        const {total, lignesCommande} = body
+        const {lignesCommande} = body
+        let total:number = 0
+        lignesCommande.forEach((element:ligneCommandeT) => {
+            total = total+(element.quantite * element.prix_unitaire)
+        })
         const idClient = req.user.id
         if(!body){
             return res.json({message:'aucune commande envoyée'}).status(404)
@@ -67,6 +78,9 @@ const createCommande = async(req:Request, res:Response)=>{
 
 const UpdateCommande = async(req:Request, res:Response)=>{
     try{
+        if(req.user.role !== "admin"){
+            return res.json({message:'vous êtes pas administrateur'}).status(401)
+        }
         const body = req.body
         await prisma.commande.update({
             where:{id:Number(req.params.id)},

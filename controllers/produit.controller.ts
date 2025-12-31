@@ -28,6 +28,9 @@ const getProduitById = async (req:Request, res:Response)=>{
 const createProduit = async(req:Request, res:Response)=> {
     try{
         //console.log("FILE 👉", req.file)
+        if(req.user.role !== "admin"){
+            return res.json({message:'vous êtes pas administrateur'}).status(401)
+        }
         if(!req.file){
             return res.json({message:'aucune image envoye'}).status(400)
         }
