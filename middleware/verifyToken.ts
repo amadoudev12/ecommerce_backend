@@ -6,7 +6,7 @@ const  verifyToken = async(req:Request, res:Response, next:NextFunction)=> {
         const token = authHeader && authHeader.split(' ')[1]
 
         if(!token){
-            return res.json({message:'vous etes pasautorisez a acceder a cette page'}).status(401)
+            return res.json({message:'vous etes pas autorisez a acceder a cette page'}).status(401)
         }
     try{ 
         const decodedToken = Jwt.verify(token , ma_cle_secret as string)

@@ -32,7 +32,7 @@ model Produit {
   id          Int        @id @default(autoincrement())
   nom         String      @unique
   description String?
-  prix        Float
+  prix        Int
   stock       Int
   image       String?
   date_ajout  DateTime   @default(now())

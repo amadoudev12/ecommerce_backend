@@ -21,15 +21,18 @@ const getCommandes = async (req:Request, res:Response)=>{
 }
 const createCommande = async(req:Request, res:Response)=>{
     try{
-        if(req.user.role !== "admin"){
-            return res.json({message:'vous êtes pas administrateur'}).status(401)
-        }
+        // if(req.user.role !== "admin"){
+        //     return res.json({message:'vous êtes pas administrateur'}).status(401)
+        // }
         const body = req.body
-        const {lignesCommande} = body
-        let total:number = 0
-        lignesCommande.forEach((element:ligneCommandeT) => {
-            total = total+(element.quantite * element.prix_unitaire)
-        })
+        let lignesCommandes : ligneCommandeT[] = []
+        lignesCommandes =body.lignesCommandes
+        const total:number = body.total
+        // let total:number = 0
+        // lignesCommande.forEach((element:ligneCommandeT) => {
+        //     total = total+(element.quantite * element.prix_unitaire)
+        // })
+        console.log(lignesCommandes)
         const idClient = req.user.id
         if(!body){
             return res.json({message:'aucune commande envoyée'}).status(404)
@@ -44,12 +47,12 @@ const createCommande = async(req:Request, res:Response)=>{
                 statut_commande:"en cours",
             }
         })
-        for(let lignes of lignesCommande){
+        for(let lignes of lignesCommandes){
             await prisma.ligneCommande.create({
                 data:{
                     id_commande:commande.id,
                     id_produit:lignes.id_produit,
-                    quantite:lignes.quantite,
+                    quantite:Number(lignes.quantite),
                     prix_unitaire:lignes.prix_unitaire
                 }
             })
@@ -69,7 +72,7 @@ const createCommande = async(req:Request, res:Response)=>{
                 }
             })
         }
-            return res.json({message:"le commande a été enregistré"}).status(201)
+            return res.json({message:"la commande a été enregistré"}).status(201)
     }catch(err){
         console.log(err);
         return res.json({message:'erreur au niveau de la bd', err})
